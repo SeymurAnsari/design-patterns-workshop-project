@@ -1,35 +1,41 @@
+using DynamicBox.Interfaces;
+using DynamicBox.Managers;
 using UnityEngine;
 
-public class MoveCommand : ICommand
+namespace DynamicBox.Commands
 {
-	public GameObject MovedObject;
-	public Vector3 InitialPos;
-	public Vector3 DestinationPos;
-	public float Speed;
-
-
-	public MoveCommand (GameObject movedObject, Vector3 initialPos, Vector3 destinationPos, float speed)
+	public class MoveCommand : ICommand
 	{
-		MovedObject = movedObject;
-		InitialPos = initialPos;
-		DestinationPos = destinationPos;
-		Speed = speed;
-	}
+		public GameObject MovedObject;
+		
+		public Vector3 InitialPos;
+		public Vector3 DestinationPos;
+		
+		public float Speed;
+		
+		public MoveCommand (GameObject movedObject, Vector3 initialPos, Vector3 destinationPos, float speed)
+		{
+			MovedObject = movedObject;
+			InitialPos = initialPos;
+			DestinationPos = destinationPos;
+			Speed = speed;
+		}
 
-	public void Execute ()
-	{
-		CommandManager.Instance.MoveObject (MovedObject, DestinationPos, Speed);
-	}
+		public void Execute ()
+		{
+			CommandManager.Instance.MoveObject (MovedObject, DestinationPos, Speed);
+		}
 
-	public void Undo ()
-	{
-		CommandManager.Instance.MoveObject (MovedObject, InitialPos, Speed);
-	}
+		public void Undo ()
+		{
+			CommandManager.Instance.MoveObject (MovedObject, InitialPos, Speed);
+		}
 
-	public float GetCommandEndTime ()
-	{
-		float distance = Vector3.Distance (InitialPos, DestinationPos);
-		float estimatedTime = distance / Speed;
-		return estimatedTime;
+		public float GetCommandEndTime ()
+		{
+			float distance = Vector3.Distance (InitialPos, DestinationPos);
+			float estimatedTime = distance / Speed;
+			return estimatedTime;
+		}
 	}
 }

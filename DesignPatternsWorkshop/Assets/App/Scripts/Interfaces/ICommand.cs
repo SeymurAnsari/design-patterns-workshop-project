@@ -1,8 +1,11 @@
-public interface ICommand
+namespace DynamicBox.Interfaces
 {
-	public void Execute ();
+	public interface ICommand
+	{
+		public void Execute ();
 
-	public void Undo ();
+		public void Undo ();
 
-	public float GetCommandEndTime ();
+		public float GetCommandEndTime ();
+	}
 }

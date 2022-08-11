@@ -1,21 +1,27 @@
+using DynamicBox.Commands;
+using DynamicBox.Managers;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+namespace DynamicBox.Controllers
 {
-	[SerializeField] private int speed = 1;
-
-	void Update ()
+	public class PlayerController : MonoBehaviour
 	{
-		if (Input.GetMouseButtonUp (0))
-		{
-			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+		[Header("Parameters")]
+		[SerializeField] private int speed = 1;
 
-			if (Physics.Raycast (ray, out RaycastHit hit))
+		void Update ()
+		{
+			if (Input.GetMouseButtonUp (0))
 			{
-				MoveCommand command = new MoveCommand (gameObject, transform.position, hit.point, speed);
-				
-				command.Execute ();
-				CommandManager.Instance.AddCommandToList (command);
+				Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+
+				if (Physics.Raycast (ray, out RaycastHit hit))
+				{
+					MoveCommand command = new MoveCommand (gameObject, transform.position, hit.point, speed);
+
+					command.Execute ();
+					CommandManager.Instance.AddCommandToList (command);
+				}
 			}
 		}
 	}

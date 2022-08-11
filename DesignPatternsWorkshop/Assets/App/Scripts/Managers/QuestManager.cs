@@ -1,53 +1,86 @@
 using System.Collections.Generic;
+using DynamicBox.Controllers;
 using DynamicBox.EventManagement;
 using DynamicBox.GameEvents;
 using UnityEngine;
 
-public class QuestManager : MonoBehaviour
+namespace DynamicBox.Managers
 {
-	[Header ("Links")]
-	[SerializeField] private List<CellController> cells;
-
-	private int[] correctSequence = new int[] {3,1,0,2};
-	private int activatedCellNumber;
-
-	#region Unity Methods
-	
-	void OnEnable ()
+	public class QuestManager : MonoBehaviour
 	{
-		EventManager.Instance.AddListener<CellActivatedEvent> (CellActivatedHandler);
-	}
+		[Header ("Links")]
+		[SerializeField] private List<CellController> cells;
 
-	void OnDisable ()
-	{
-		EventManager.Instance.RemoveListener<CellActivatedEvent> (CellActivatedHandler);
-	}
-	
-	#endregion
-	
-	#region Event Handlers
+		private CellController currentCell;
 
-	private void CellActivatedHandler (CellActivatedEvent eventDetails)
-	{
-		if (eventDetails.CellId != correctSequence[activatedCellNumber])
+		private int[] correctSequence = new int[] {3, 1, 0, 2};
+		private int activatedCellNumber;
+
+		#region Unity Methods
+
+		void OnEnable ()
 		{
-			Debug.Log ("You LOSE / Try Again");
-			activatedCellNumber = 0;
+			EventManager.Instance.AddListener<CellActivatedEvent> (CellActivatedHandler);
 		}
-		else
+
+		void OnDisable ()
 		{
-			if (activatedCellNumber is 3)
+			EventManager.Instance.RemoveListener<CellActivatedEvent> (CellActivatedHandler);
+		}
+
+		#endregion
+
+		private void SetCellColor (CellController cell, Color color)
+		{
+			var cubeRenderer = cell.GetComponent<Renderer> ();
+			cubeRenderer.material.SetColor ("_Color", color);
+		}
+
+		private void ResetCellColors ()
+		{
+			foreach (var cell in cells)
 			{
-				Debug.Log ("You win");
+				SetCellColor (cell,Color.white);
+			}
+		}
+
+		#region Event Handlers
+
+		private void CellActivatedHandler (CellActivatedEvent eventDetails)
+		{
+			foreach (var cell in cells)
+			{
+				if (eventDetails.CellId == cell.CellId)
+				{
+					currentCell = cell;
+					break;
+				}
+			}
+
+			if (eventDetails.CellId != correctSequence[activatedCellNumber])
+			{
+				Debug.Log ("You LOSE / Try Again");
 				activatedCellNumber = 0;
+				SetCellColor (currentCell,Color.red);
+				ResetCellColors ();
 			}
 			else
 			{
-				Debug.Log ("Well Done. Contunue");
-				activatedCellNumber++;
+				SetCellColor (currentCell,Color.green);
+				if (activatedCellNumber is 3)
+				{
+					Debug.Log ("You win");
+					activatedCellNumber = 0;
+					ResetCellColors ();
+				}
+				else
+				{
+					Debug.Log ("Well Done. Contunue");
+					activatedCellNumber++;
+				}
 			}
 		}
-	}
 
-	#endregion
+		#endregion
+	}
 }

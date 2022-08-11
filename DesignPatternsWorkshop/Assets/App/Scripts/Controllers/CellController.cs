@@ -2,14 +2,19 @@ using DynamicBox.EventManagement;
 using DynamicBox.GameEvents;
 using UnityEngine;
 
-public class CellController : MonoBehaviour
+namespace DynamicBox.Controllers
 {
-	[Header ("Parameters")]
-	[SerializeField] private int cellId = 1;
-
-	void OnTriggerEnter (Collider other)
+	public class CellController : MonoBehaviour
 	{
-		Debug.Log ($"{cellId} cell was Entered");
-		EventManager.Instance.Raise (new CellActivatedEvent (cellId));
+		[Header ("Parameters")]
+		[SerializeField] private int _cellId = 1;
+
+		public int CellId => _cellId;
+
+		void OnTriggerEnter (Collider other)
+		{
+			Debug.Log ($"{_cellId} cell was Entered");
+			EventManager.Instance.Raise (new CellActivatedEvent (_cellId));
+		}
 	}
 }
