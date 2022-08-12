@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using DynamicBox.EventManagement;
+using DynamicBox.GameEvents;
 using DynamicBox.Interfaces;
 using UnityEngine;
 
@@ -16,6 +19,16 @@ namespace DynamicBox.Managers
 		private IEnumerator moveCoroutine;
 
 		#region Unity Methods
+
+		private void OnEnable ()
+		{
+			EventManager.Instance.AddListener <ResetGameEvent>(ResetGameHandler);
+		}
+
+		private void OnDisable ()
+		{
+			EventManager.Instance.RemoveListener <ResetGameEvent>(ResetGameHandler);
+		}
 
 		void Awake ()
 		{
@@ -49,6 +62,7 @@ namespace DynamicBox.Managers
 
 			executedCommands.Clear ();
 			IsUndoing = false;
+			EventManager.Instance.Raise (new CommandUndoDoneEvent ());
 		}
 
 		public void AddCommandToList (ICommand command)
@@ -77,5 +91,14 @@ namespace DynamicBox.Managers
 				yield return new WaitForEndOfFrame ();
 			}
 		}
+
+		#region Event Handlers
+
+		private void ResetGameHandler (ResetGameEvent eventDetails)
+		{
+			UndoAllCommands ();
+		}
+
+		#endregion
 	}
 }

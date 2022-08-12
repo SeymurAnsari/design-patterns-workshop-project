@@ -16,16 +16,20 @@ namespace DynamicBox.Managers
 		private int[] correctSequence = new int[] {3, 1, 0, 2};
 		private int activatedCellNumber;
 
+		private bool canCheck=true;
+
 		#region Unity Methods
 
 		void OnEnable ()
 		{
 			EventManager.Instance.AddListener<CellActivatedEvent> (CellActivatedHandler);
+			EventManager.Instance.AddListener<CommandUndoDoneEvent> (CommandUndoDoneHandler);
 		}
 
 		void OnDisable ()
 		{
 			EventManager.Instance.RemoveListener<CellActivatedEvent> (CellActivatedHandler);
+			EventManager.Instance.RemoveListener<CommandUndoDoneEvent> (CommandUndoDoneHandler);
 		}
 
 		#endregion
@@ -36,11 +40,13 @@ namespace DynamicBox.Managers
 			cubeRenderer.material.SetColor ("_Color", color);
 		}
 
-		private void ResetCellColors ()
+		private void ResetCells ()
 		{
+			activatedCellNumber = 0;
+			
 			foreach (var cell in cells)
 			{
-				SetCellColor (cell,Color.white);
+				SetCellColor (cell, Color.white);
 			}
 		}
 
@@ -48,6 +54,11 @@ namespace DynamicBox.Managers
 
 		private void CellActivatedHandler (CellActivatedEvent eventDetails)
 		{
+			if (!canCheck)
+			{
+				return;
+			}
+
 			foreach (var cell in cells)
 			{
 				if (eventDetails.CellId == cell.CellId)
@@ -59,19 +70,20 @@ namespace DynamicBox.Managers
 
 			if (eventDetails.CellId != correctSequence[activatedCellNumber])
 			{
+				EventManager.Instance.Raise (new PlayerLoseEvent ());
+
 				Debug.Log ("You LOSE / Try Again");
-				activatedCellNumber = 0;
-				SetCellColor (currentCell,Color.red);
-				ResetCellColors ();
+				SetCellColor (currentCell, Color.red);
+				canCheck = false;
 			}
 			else
 			{
-				SetCellColor (currentCell,Color.green);
+				SetCellColor (currentCell, Color.green);
 				if (activatedCellNumber is 3)
 				{
+					EventManager.Instance.Raise (new PlayerWinEvent ());
 					Debug.Log ("You win");
-					activatedCellNumber = 0;
-					ResetCellColors ();
+					canCheck = false;
 				}
 				else
 				{
@@ -79,6 +91,12 @@ namespace DynamicBox.Managers
 					activatedCellNumber++;
 				}
 			}
+		}
+		
+		private void CommandUndoDoneHandler (CommandUndoDoneEvent eventDetails)
+		{
+			ResetCells ();
+			canCheck = true;
 		}
 
 		#endregion
