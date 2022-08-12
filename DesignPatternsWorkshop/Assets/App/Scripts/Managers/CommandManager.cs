@@ -22,14 +22,14 @@ namespace DynamicBox.Managers
 
 		private void OnEnable ()
 		{
-			EventManager.Instance.AddListener <ResetGameEvent>(ResetGameHandler);
+			EventManager.Instance.AddListener<ResetGameEvent> (ResetGameHandler);
 		}
 
 		private void OnDisable ()
 		{
-			EventManager.Instance.RemoveListener <ResetGameEvent>(ResetGameHandler);
+			EventManager.Instance.RemoveListener<ResetGameEvent> (ResetGameHandler);
 		}
-
+		
 		void Awake ()
 		{
 			Instance = this;

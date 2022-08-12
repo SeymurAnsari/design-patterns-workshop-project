@@ -26,8 +26,8 @@ namespace DynamicBox.UI.Controllers
 
 		public void OnPlayAgainButtonPressed ()
 		{
-			_view.gameObject.SetActive (false);
 			EventManager.Instance.Raise (new ResetGameEvent ());
+			_view.gameObject.SetActive (false);
 		}
 	}
 }
