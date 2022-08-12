@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using DynamicBox.EventManagement;
@@ -20,16 +19,16 @@ namespace DynamicBox.Managers
 
 		#region Unity Methods
 
-		private void OnEnable ()
+		void OnEnable ()
 		{
 			EventManager.Instance.AddListener<ResetGameEvent> (ResetGameHandler);
 		}
 
-		private void OnDisable ()
+		void OnDisable ()
 		{
 			EventManager.Instance.RemoveListener<ResetGameEvent> (ResetGameHandler);
 		}
-		
+
 		void Awake ()
 		{
 			Instance = this;
@@ -37,10 +36,10 @@ namespace DynamicBox.Managers
 
 		void Update ()
 		{
-			if (Input.GetKeyDown (KeyCode.Space) && !IsUndoing)
-			{
-				UndoAllCommands ();
-			}
+			// if (Input.GetKeyDown (KeyCode.Space) && !IsUndoing)
+			// {
+			// 	UndoAllCommands ();
+			// }
 		}
 
 		#endregion

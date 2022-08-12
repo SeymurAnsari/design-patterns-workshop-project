@@ -13,14 +13,14 @@ namespace DynamicBox.Controllers
 
 		private bool canMove = true;
 
-		private void OnEnable ()
+		void OnEnable ()
 		{
 			EventManager.Instance.AddListener<CommandUndoDoneEvent> (CommandUndoDoneHandler);
 			EventManager.Instance.AddListener<PlayerWinEvent> (PlayerWinHandler);
 			EventManager.Instance.AddListener<PlayerLoseEvent> (PlayerLoseHandler);
 		}
 
-		private void OnDisable ()
+		void OnDisable ()
 		{
 			EventManager.Instance.RemoveListener<CommandUndoDoneEvent> (CommandUndoDoneHandler);
 			EventManager.Instance.RemoveListener<PlayerWinEvent> (PlayerWinHandler);
