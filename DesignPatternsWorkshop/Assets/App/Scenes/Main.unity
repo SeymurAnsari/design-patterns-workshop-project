@@ -137,10 +137,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 231043407}
+  - component: {fileID: 231043403}
   - component: {fileID: 231043406}
   - component: {fileID: 231043405}
   - component: {fileID: 231043404}
-  - component: {fileID: 231043403}
   m_Layer: 0
   m_Name: Cell (3)
   m_TagString: Untagged
@@ -808,10 +808,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1490345252}
+  - component: {fileID: 1490345253}
   - component: {fileID: 1490345251}
   - component: {fileID: 1490345250}
   - component: {fileID: 1490345249}
-  - component: {fileID: 1490345253}
   m_Layer: 0
   m_Name: Cell
   m_TagString: Untagged
@@ -1214,10 +1214,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 356897475267386518, guid: 760ea01a9f66973469fd2d00660a0f25, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 760ea01a9f66973469fd2d00660a0f25, type: 3}
 --- !u!1001 &7697072428544467082
@@ -1227,10 +1223,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 985096138}
     m_Modifications:
-    - target: {fileID: 7697072428069651592, guid: a100906cc1396894aa06d434f83e2e71, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7697072428431932524, guid: a100906cc1396894aa06d434f83e2e71, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1371,6 +1363,10 @@ PrefabInstance:
     - target: {fileID: 7750394354318641680, guid: eec1cca9b31322641b32c017209f01a5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7750394354318641681, guid: eec1cca9b31322641b32c017209f01a5, type: 3}
+      propertyPath: speed
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7750394354318641684, guid: eec1cca9b31322641b32c017209f01a5, type: 3}
       propertyPath: m_Name

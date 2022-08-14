@@ -13,7 +13,7 @@ namespace DynamicBox.Managers
 
 		private List<ICommand> executedCommands = new List<ICommand> ();
 
-		private bool IsUndoing;
+		private bool isUndoing;
 
 		private IEnumerator moveCoroutine;
 
@@ -46,7 +46,7 @@ namespace DynamicBox.Managers
 
 		private void UndoAllCommands ()
 		{
-			IsUndoing = true;
+			isUndoing = true;
 			StartCoroutine (UndoCoroutine ());
 		}
 
@@ -60,7 +60,7 @@ namespace DynamicBox.Managers
 			}
 
 			executedCommands.Clear ();
-			IsUndoing = false;
+			isUndoing = false;
 			EventManager.Instance.Raise (new CommandUndoDoneEvent ());
 		}
 
